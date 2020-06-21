@@ -93,8 +93,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: reservation
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
     ports:
     - "3399:3306"
 
@@ -105,8 +103,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: authenticaion
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
 
   email_db:
     image: mysql:5.7
@@ -115,8 +111,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: email
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
 
 
 volumes:
