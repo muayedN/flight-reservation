@@ -33,7 +33,7 @@ public class ReservationListener {
     }
 
     //TODO: read string from config file
-    @JmsListener(destination = "flight-reservation")
+    @JmsListener(destination = "flightreservation")
     public void consumeReservationPurchaseMessage(String reservationPurchasedMessageStr) {
         ReservationPurchasedMessage reservationPurchasedMessage = null;
         ObjectMapper mapper = new ObjectMapper();

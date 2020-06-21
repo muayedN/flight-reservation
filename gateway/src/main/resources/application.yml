@@ -13,10 +13,10 @@ zuul:
   igoredServices: '*'
   routes:
     authentication:
-      serviceId: Authentication-Service
+      serviceId: authenticationservice
       sensitiveHeaders: Cookie,Set-Cookie
     reservation:
-      serviceId: Flight-Reservation
+      serviceId: flightreservation
       sensitiveHeaders: Cookie,Set-Cookie
 
 eureka:

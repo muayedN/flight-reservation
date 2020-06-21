@@ -12,7 +12,7 @@ public class AuthenticationServiceFallback implements FallbackProvider {
 
     @Override
     public String getRoute() {
-        return "Authentication-Service";
+        return "authenticationservice";
     }
 
     @Override

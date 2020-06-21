@@ -15,7 +15,7 @@ services:
   activemq_server:
     image: rmohr/activemq
 
-  authentication_service:
+  authenticationservice:
     build:
       context: authentication-service
       dockerfile: Dockerfile
@@ -33,7 +33,7 @@ services:
     ports:
       - "8088:8088"
 
-  reservation_service:
+  reservationservice:
     build:
       context: reservation-service
       dockerfile: Dockerfile
@@ -51,7 +51,7 @@ services:
       JDBC_USER: root
       JDBC_PASSWORD: root
 
-  email_service:
+  emailservice:
     build:
       context: email-service
       dockerfile: Dockerfile
@@ -60,7 +60,7 @@ services:
       - eurekaserver
       - activemq_server
       - email_db
-      - authentication_service
+      - authenticationservice
     environment:
       HOST_NAME: emailservice
       EUREKA_SERVER_URL: http://eurekaserver:8761/eureka/
@@ -78,8 +78,8 @@ services:
       dockerfile: Dockerfile
     image: gateway
     depends_on:
-      - authentication_service
-      - reservation_service
+      - authenticationservice
+      - reservationservice
     environment:
       HOST_NAME: gateway
       EUREKA_SERVER_URL: http://eurekaserver:8761/eureka/

@@ -27,10 +27,10 @@ public class UserServiceImpl implements UserService {
 
     private final EurekaClient eurekaClient;
 
-    @Value("${authentication-service.name}")
+    @Value("${authenticationservice.name}")
     private String authenticationServiceName;
 
-    @Value("${authentication-service.jwt-token}")
+    @Value("${authenticationservice.jwt-token}")
     private String jwtToken;
 
     @Autowired

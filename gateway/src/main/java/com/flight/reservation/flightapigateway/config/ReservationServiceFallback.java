@@ -12,7 +12,7 @@ public class ReservationServiceFallback implements FallbackProvider {
 
     @Override
     public String getRoute() {
-        return "Flight-Reservation";
+        return "flightreservation";
     }
 
     @Override
