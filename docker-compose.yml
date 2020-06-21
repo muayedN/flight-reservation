@@ -1,0 +1,125 @@
+version: '3'
+
+services:
+
+  eurekaserver:
+    build:
+      context: eureka
+      dockerfile: Dockerfile
+    image: ea_eurekaserver
+    environment:
+      HOST_NAME: eurekaserver
+    ports:
+      - "8761:8761"
+
+  activemq_server:
+    image: rmohr/activemq
+
+  authentication_service:
+    build:
+      context: authentication-service
+      dockerfile: Dockerfile
+    image: authentication_service
+    depends_on:
+      - authentication_db
+      - eurekaserver
+    environment:
+      HOST_NAME: authenticationservice
+      EUREKA_SERVER_URL: http://eurekaserver:8761/eureka/
+      JWT_SECRET_KEY: flight_reservation_jwt_secret_key
+      JDBC_URL: jdbc:mysql://authentication_db:3306/authenticaion?serverTimezone=UTC
+      JDBC_USER: root
+      JDBC_PASSWORD: root
+    ports:
+      - "8088:8088"
+
+  reservation_service:
+    build:
+      context: reservation-service
+      dockerfile: Dockerfile
+    image: reservation_service
+    depends_on:
+      - eurekaserver
+      - activemq_server
+      - reservation_db
+    environment:
+      HOST_NAME: reservationservice
+      EUREKA_SERVER_URL: http://eurekaserver:8761/eureka/
+      ACTIVEMQ_BROKER_URL: tcp://activemq_server:61616
+      JWT_SECRET_KEY: flight_reservation_jwt_secret_key
+      JDBC_URL: jdbc:mysql://reservation_db:3306/reservation?serverTimezone=UTC
+      JDBC_USER: root
+      JDBC_PASSWORD: root
+
+  email_service:
+    build:
+      context: email-service
+      dockerfile: Dockerfile
+    image: email_service
+    depends_on:
+      - eurekaserver
+      - activemq_server
+      - email_db
+      - authentication_service
+    environment:
+      HOST_NAME: emailservice
+      EUREKA_SERVER_URL: http://eurekaserver:8761/eureka/
+      ACTIVEMQ_BROKER_URL: tcp://activemq_server:61616
+      JDBC_URL: jdbc:mysql://email_db:3306/email?serverTimezone=UTC
+      JDBC_USER: root
+      JDBC_PASSWORD: root
+      JWT_TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYWlsaW5nc2VydmljZUBmbGlnaHRyZXNlcnZhdGlvbi5jb20iLCJyb2xlcyI6WyJST0xFX1NZU1RFTSJdLCJleHAiOjE1OTI3MzAyMDcsImlhdCI6MTU5MjcxMjIwNywicHVibGljX2lkIjoiM2IwMzQ0ZGYtYzMwNi00ZjlhLTgwYTItZjExODNjMGQ3YzQ2In0.RnhWoErZVn-3ZUBCTl2TUgIaigWZXZ--QXB2VfwTTum4BSuOWTUDnpqfwGEGHsD4wya8D8w-Zj6Ew3ETk1x0jQ
+      EMAIL_ADDRESS: test@test.com
+      EMAIL_PASSWORD: cannottypehere
+
+  gateway:
+    build:
+      context: gateway
+      dockerfile: Dockerfile
+    image: gateway
+    depends_on:
+      - authentication_service
+      - reservation_service
+    environment:
+      HOST_NAME: gateway
+      EUREKA_SERVER_URL: http://eurekaserver:8761/eureka/
+    ports:
+      - "8080:8089"
+
+  reservation_db:
+    image: mysql:5.7
+    volumes:
+      - db_data1:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: reservation
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+    - "3399:3306"
+
+  authentication_db:
+    image: mysql:5.7
+    volumes:
+      - db_data2:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: authenticaion
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+
+  email_db:
+    image: mysql:5.7
+    volumes:
+      - db_data3:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: email
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+
+
+volumes:
+  db_data1:
+  db_data2:
+  db_data3:

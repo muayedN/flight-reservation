@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <include file="db/changelog/schema/create-user-and-role-table-with-their-pivot.xml"/>
+
+    <changeSet  author="natnafel " id="1592187016829-1">
+        <sqlFile path="db/changelog/data/add-roles.sql"/>
+    </changeSet>
+
+    <changeSet  author="natnafel " id="1592187016829-2">
+        <sqlFile path="db/changelog/data/add-users-with-roles.sql"/>
+    </changeSet>
+
+    <changeSet  author="natnafel " id="1592187016829-3">
+        <sqlFile path="db/changelog/data/add-system-user.sql"/>
+    </changeSet>
+
+</databaseChangeLog>

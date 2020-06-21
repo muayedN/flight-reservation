@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="natnafel (generated)" id="1592084622007-1">
+        <createTable tableName="Airline">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="AirlinePK"/>
+            </column>
+            <column name="code" type="VARCHAR(3)"/>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592084622007-2">
+        <createTable tableName="history">
+            <column name="history" type="VARCHAR(2000)"/>
+            <column name="id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592084622007-3">
+        <addPrimaryKey columnNames="id" constraintName="historyPK" tableName="history"/>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592084622007-4">
+        <addForeignKeyConstraint baseColumnNames="id" baseTableName="history" constraintName="FK_cdt7r8ia9ogslbbnn51ty7rd9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="Airline"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="natnafel (generated)" id="1592152320782-1">
+        <createTable tableName="Address">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="AddressPK"/>
+            </column>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="state" type="VARCHAR(255)"/>
+            <column name="street" type="VARCHAR(255)"/>
+            <column name="zip" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-2">
+        <createTable tableName="Airport">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="AirportPK"/>
+            </column>
+            <column name="code" type="VARCHAR(3)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="address_id" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-3">
+        <createTable tableName="Flight">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="FlightPK"/>
+            </column>
+            <column name="arrivalDate" type="DATE"/>
+            <column name="arrivalTime" type="TIME"/>
+            <column name="capacity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="departureDate" type="DATE"/>
+            <column name="departureTime" type="TIME"/>
+            <column name="number" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="airline_id" type="INT"/>
+            <column name="arrivalAirport_id" type="BIGINT"/>
+            <column name="departureAirport_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-4">
+        <createTable tableName="Reservation">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="ReservationPK"/>
+            </column>
+            <column name="code" type="VARCHAR(6)"/>
+            <column name="reservationStatus" type="VARCHAR(255)"/>
+            <column name="createdBy_id" type="INT"/>
+            <column name="createdFor_id" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-5">
+        <createTable tableName="Reservation_Ticket">
+            <column name="Reservation_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ticketsPerReservation_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-6">
+        <createTable tableName="Ticket">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="TicketPK"/>
+            </column>
+            <column name="number" type="VARCHAR(20)"/>
+            <column name="reservationCode" type="VARCHAR(6)"/>
+            <column name="flight_id" type="INT"/>
+            <column name="user_id" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-7">
+        <createTable tableName="User">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="UserPK"/>
+            </column>
+            <column name="dob" type="DATE"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="firstName" type="VARCHAR(255)"/>
+            <column name="lastName" type="VARCHAR(255)"/>
+            <column name="publicId" type="VARCHAR(255)"/>
+            <column name="address_id" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-8">
+        <addUniqueConstraint columnNames="ticketsPerReservation_id" tableName="Reservation_Ticket"/>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-9">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="Ticket" constraintName="FK_1nne0brl6rr604w9ng3to3rom" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="User"/>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-10">
+        <addForeignKeyConstraint baseColumnNames="address_id" baseTableName="User" constraintName="FK_25yqck53dyy0k1q261ncjxmw3" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="Address"/>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-11">
+        <addForeignKeyConstraint baseColumnNames="airline_id" baseTableName="Flight" constraintName="FK_4q2tr6gmioagvkmn6w92xf0a0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="Airline"/>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-12">
+        <addForeignKeyConstraint baseColumnNames="arrivalAirport_id" baseTableName="Flight" constraintName="FK_8lmd01ebyph1j4hh2jxqoyfer" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="Airport"/>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-13">
+        <addForeignKeyConstraint baseColumnNames="ticketsPerReservation_id" baseTableName="Reservation_Ticket" constraintName="FK_ajecukqem431u60tgapmnly8w" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="Ticket"/>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-14">
+        <addForeignKeyConstraint baseColumnNames="departureAirport_id" baseTableName="Flight" constraintName="FK_i296cuch5k88r923kbg1keu3a" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="Airport"/>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-15">
+        <addForeignKeyConstraint baseColumnNames="createdFor_id" baseTableName="Reservation" constraintName="FK_kb2lixj5s34qvdbac4qxi4cbf" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="User"/>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-16">
+        <addForeignKeyConstraint baseColumnNames="Reservation_id" baseTableName="Reservation_Ticket" constraintName="FK_lrs6s19tfyoxtbywjyshweyse" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="Reservation"/>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-17">
+        <addForeignKeyConstraint baseColumnNames="address_id" baseTableName="Airport" constraintName="FK_mpme8gurujl6xyy3h6l8r5p90" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="Address"/>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-18">
+        <addForeignKeyConstraint baseColumnNames="createdBy_id" baseTableName="Reservation" constraintName="FK_ohsiiciyr1jv24s63mnjycmwr" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="User"/>
+    </changeSet>
+    <changeSet author="natnafel (generated)" id="1592152320782-19">
+        <addForeignKeyConstraint baseColumnNames="flight_id" baseTableName="Ticket" constraintName="FK_r3nvb1434ls9i6vx3lrlds2oo" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="Flight"/>
+    </changeSet>
+</databaseChangeLog>

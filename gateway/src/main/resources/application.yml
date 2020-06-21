@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: Gateway
+
+server:
+  port: 8089
+
+security:
+  basic:
+    enable: false
+
+zuul:
+  igoredServices: '*'
+  routes:
+    authentication:
+      serviceId: Authentication-Service
+      sensitiveHeaders: Cookie,Set-Cookie
+    reservation:
+      serviceId: Flight-Reservation
+      sensitiveHeaders: Cookie,Set-Cookie
+
+eureka:
+  instance:
+    hostname: ${HOST_NAME}
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER_URL}
+
+
+
